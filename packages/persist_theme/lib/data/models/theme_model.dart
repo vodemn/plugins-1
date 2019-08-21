@@ -2,36 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
-enum ThemeType { light, dark, custom, black }
+enum ThemeType { light, dark, lightColor, darkColor }
 
 class ThemeModel extends ChangeNotifier {
   ThemeModel({
-    this.customBlackTheme,
     this.customLightTheme,
     this.customDarkTheme,
-    this.customCustomTheme,
+    this.customLightColorTheme,
+    this.customDarkColorTheme,
     String key,
   }) : _storage = LocalStorage(key ?? "app_theme");
 
   final ThemeData customLightTheme,
       customDarkTheme,
-      customBlackTheme,
-      customCustomTheme;
+      customDarkColorTheme,
+      customLightColorTheme;
 
   int _accentColor = Colors.redAccent.value;
-  bool _customTheme = false;
-  int _darkAccentColor = Colors.greenAccent.value;
+  bool _lightMode = false;
   bool _darkMode = false;
-  int _primaryColor = Colors.white.value;
+  int _primaryColor = Colors.blue.value;
   LocalStorage _storage;
-  bool _trueBlack = false;
+  bool _lightColor = false;
+  bool _darkColor = false;
 
   ThemeType get type {
     if (_darkMode ?? false) {
-      if (_trueBlack ?? false) return ThemeType.black;
+      if (_darkColor ?? false) return ThemeType.darkColor;
       return ThemeType.dark;
     }
-    if (_customTheme ?? false) return ThemeType.custom;
+    if (_lightMode ?? false) return ThemeType.lightColor;
     return ThemeType.light;
   }
 
@@ -41,15 +41,21 @@ class ThemeModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeTrueBlack(bool value) {
-    _trueBlack = value;
-    _storage.setItem("true_black", _trueBlack);
+  void changeDarkColor(bool value) {
+    _darkColor = value;
+    _storage.setItem("dark_color", _darkColor);
     notifyListeners();
   }
 
-  void changeCustomTheme(bool value) {
-    _customTheme = value;
-    _storage.setItem("custom_theme", _customTheme);
+  void changeLightMode(bool value) {
+    _lightMode = value;
+    _storage.setItem("light_mode", _lightMode);
+    notifyListeners();
+  }
+
+  void changeLightColor(bool value) {
+    _lightColor = value;
+    _storage.setItem("light_color", _lightColor);
     notifyListeners();
   }
 
@@ -65,47 +71,43 @@ class ThemeModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeDarkAccentColor(Color value) {
-    _darkAccentColor = value.value;
-    _storage.setItem("dark_accent_color", _darkAccentColor);
-    notifyListeners();
-  }
-
   ThemeData get theme {
     if (_storage == null) {
       init();
     }
     switch (type) {
       case ThemeType.light:
-        return customLightTheme ?? ThemeData.light().copyWith(
-          primaryColor: Colors.white,
-        );
+        return customLightTheme ??
+            ThemeData.light().copyWith(
+              primaryColor: primaryColor ?? Colors.white,
+              accentColor: accentColor ?? Colors.redAccent,
+            );
       case ThemeType.dark:
         return customDarkTheme ??
             ThemeData.dark().copyWith(
-              accentColor: darkAccentColor ?? null,
+              accentColor: accentColor ?? null,
             );
-      case ThemeType.black:
-        return customBlackTheme ??
+      case ThemeType.darkColor:
+        return customDarkColorTheme ??
             ThemeData.dark().copyWith(
-              scaffoldBackgroundColor: Colors.black,
-              backgroundColor: Colors.black,
-              bottomAppBarColor: Colors.black,
-              primaryColorDark: Colors.black,
-              accentColor: darkAccentColor ?? null,
+              accentColor: accentColor ?? null,
             );
-      case ThemeType.custom:
-        return customCustomTheme != null
-            ? customCustomTheme.copyWith(
-                primaryColor: primaryColor ?? Colors.white,
+      case ThemeType.lightColor:
+        return customLightColorTheme != null
+            ? customLightColorTheme.copyWith(
+                primaryColor: primaryColor ?? Colors.blue,
                 accentColor: accentColor ?? Colors.redAccent,
               )
             : ThemeData.light().copyWith(
-                primaryColor: primaryColor ?? Colors.white,
+                primaryColor: primaryColor ?? Colors.blue,
                 accentColor: accentColor ?? Colors.redAccent,
               );
       default:
-        return customLightTheme ?? ThemeData.light().copyWith(primaryColor: Colors.white,);
+        return customLightTheme ??
+            ThemeData.light().copyWith(
+              primaryColor: primaryColor ?? Colors.white,
+              accentColor: accentColor ?? Colors.redAccent,
+            );
     }
   }
 
@@ -121,26 +123,22 @@ class ThemeModel extends ChangeNotifier {
       init();
     }
 
-    if (_trueBlack ?? false) {
-      return customBlackTheme ??
+    if (_darkColor ?? false) {
+      return customDarkColorTheme ??
           ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: Colors.black,
-            backgroundColor: Colors.black,
-            bottomAppBarColor: Colors.black,
-            primaryColorDark: Colors.black,
-            accentColor: darkAccentColor ?? null,
+            primaryColorDark: primaryColor,
+            accentColor: accentColor ?? null,
           );
     }
     return customDarkTheme ??
         ThemeData.dark().copyWith(
           accentColor: accentColor ?? null,
-          primaryColor: primaryColor ?? null,
         );
   }
 
   Color get backgroundColor {
     if (darkMode ?? false) {
-      if (trueBlack ?? false) return Colors.black;
+      if (darkColor ?? false) return Colors.black;
       return ThemeData.dark().scaffoldBackgroundColor;
     }
     if (customTheme ?? false) return primaryColor;
@@ -162,11 +160,11 @@ class ThemeModel extends ChangeNotifier {
   Future init() async {
     if (await _storage.ready) {
       _darkMode = _storage.getItem("dark_mode");
-      _trueBlack = _storage.getItem("true_black");
-      _customTheme = _storage.getItem("custom_theme");
+      _darkColor = _storage.getItem("dark_color");
+      _lightMode = _storage.getItem("light_mode");
+      _lightColor = _storage.getItem("light_color");
       _primaryColor = _storage.getItem("primary_color");
       _accentColor = _storage.getItem("accent_color");
-      _darkAccentColor = _storage.getItem("dark_accent_color");
       notifyListeners();
     } else {
       print("Error Loading Theme...");
@@ -174,11 +172,11 @@ class ThemeModel extends ChangeNotifier {
   }
 
   bool get darkMode =>
-      _darkMode ?? (type == ThemeType.dark || type == ThemeType.black);
+      _darkMode ?? (type == ThemeType.dark || type == ThemeType.darkColor);
 
-  bool get trueBlack => _trueBlack ?? type == ThemeType.black;
+  bool get darkColor => _darkColor ?? type == ThemeType.darkColor;
 
-  bool get customTheme => _customTheme ?? type == ThemeType.custom;
+  bool get customTheme => _lightMode ?? type == ThemeType.lightColor;
 
   Color get primaryColor {
     if (_primaryColor == null) {
@@ -190,36 +188,28 @@ class ThemeModel extends ChangeNotifier {
   }
 
   Color get accentColor {
-    if (type == ThemeType.dark || type == ThemeType.black) {
-      if (_darkAccentColor == null) {
-        return ThemeData.dark().accentColor;
-      }
-      return Color(_darkAccentColor);
+    if (type == ThemeType.dark || type == ThemeType.darkColor) {
+      return ThemeData.dark().accentColor;
     }
 
     if (_accentColor == null) {
       return ThemeData.light().accentColor;
     }
 
-    if (_customTheme) {
+    if (_lightMode || _lightColor) {
       return Color(_accentColor);
     }
 
     return Colors.redAccent;
   }
 
-  Color get darkAccentColor {
-    if (_darkAccentColor == null) return ThemeData.dark().accentColor;
-    return Color(_darkAccentColor);
-  }
-
   void reset() {
     _storage.clear();
     _darkMode = false;
-    _trueBlack = false;
-    _customTheme = false;
-    _primaryColor = Colors.white.value;
+    _darkColor = false;
+    _lightMode = false;
+    _lightColor = false;
+    _primaryColor = Colors.blue.value;
     _accentColor = Colors.redAccent.value;
-    _darkAccentColor = Colors.greenAccent.value;
   }
 }
