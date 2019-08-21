@@ -77,28 +77,21 @@ class ThemeModel extends ChangeNotifier {
     }
     switch (type) {
       case ThemeType.light:
-        return customLightTheme ?? ThemeData.light().copyWith(
-          accentColor: accentColor ?? null,
-          primaryColor: primaryColor ?? Colors.white,
-        );
-
+        return customLightTheme ?? ThemeData.light().copyWith();
       case ThemeType.dark:
         return customDarkTheme ??
             ThemeData.dark().copyWith(
-              accentColor: accentColor ?? null,
-              primaryColor: primaryColor ?? Colors.blue,
+              accentColor: darkAccentColor ?? null,
             );
-
       case ThemeType.black:
         return customBlackTheme ??
             ThemeData.dark().copyWith(
-              scaffoldBackgroundColor: Colors.white,
-              backgroundColor: Colors.white,
-              bottomAppBarColor: Colors.white,
-              primaryColorDark: Colors.white,
+              scaffoldBackgroundColor: Colors.black,
+              backgroundColor: Colors.black,
+              bottomAppBarColor: Colors.black,
+              primaryColorDark: Colors.black,
               accentColor: darkAccentColor ?? null,
             );
-
       case ThemeType.custom:
         return customCustomTheme != null
             ? customCustomTheme.copyWith(
@@ -194,11 +187,27 @@ class ThemeModel extends ChangeNotifier {
   }
 
   Color get accentColor {
+    if (type == ThemeType.dark || type == ThemeType.black) {
+      if (_darkAccentColor == null) {
+        return ThemeData.dark().accentColor;
+      }
+      return Color(_darkAccentColor);
+    }
+
     if (_accentColor == null) {
       return ThemeData.light().accentColor;
     }
 
-    return Color(_accentColor);
+    if (_customTheme) {
+      return Color(_accentColor);
+    }
+
+    return Colors.redAccent;
+  }
+
+  Color get darkAccentColor {
+    if (_darkAccentColor == null) return ThemeData.dark().accentColor;
+    return Color(_darkAccentColor);
   }
 
   void reset() {
