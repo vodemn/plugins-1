@@ -78,11 +78,14 @@ class ThemeModel extends ChangeNotifier {
     switch (type) {
       case ThemeType.light:
         return customLightTheme ?? ThemeData.light().copyWith();
+
       case ThemeType.dark:
         return customDarkTheme ??
             ThemeData.dark().copyWith(
               accentColor: darkAccentColor ?? null,
+              primaryColor: primaryColor ?? Colors.blue,
             );
+
       case ThemeType.black:
         return customBlackTheme ??
             ThemeData.dark().copyWith(
@@ -92,6 +95,7 @@ class ThemeModel extends ChangeNotifier {
               primaryColorDark: Colors.black,
               accentColor: darkAccentColor ?? null,
             );
+
       case ThemeType.custom:
         return customCustomTheme != null
             ? customCustomTheme.copyWith(
@@ -187,27 +191,11 @@ class ThemeModel extends ChangeNotifier {
   }
 
   Color get accentColor {
-    if (type == ThemeType.dark || type == ThemeType.black) {
-      if (_darkAccentColor == null) {
-        return ThemeData.dark().accentColor;
-      }
-      return Color(_darkAccentColor);
-    }
-
     if (_accentColor == null) {
       return ThemeData.light().accentColor;
     }
 
-    if (_customTheme) {
-      return Color(_accentColor);
-    }
-
-    return Colors.redAccent;
-  }
-
-  Color get darkAccentColor {
-    if (_darkAccentColor == null) return ThemeData.dark().accentColor;
-    return Color(_darkAccentColor);
+    return Color(_accentColor);
   }
 
   void reset() {
