@@ -22,10 +22,10 @@ class ThemeModel extends ChangeNotifier {
       customCustomTheme;
 
   int _accentColor = Colors.redAccent.value;
-  bool _customTheme = false;
-  int _darkAccentColor = Colors.greenAccent.value;
+  bool _customTheme = true;
+  int _darkAccentColor = Colors.redAccent.value;
   bool _darkMode = false;
-  int _primaryColor = Colors.blue.value;
+  int _primaryColor = Colors.lightGreen.value;
   LocalStorage _storage;
   bool _trueBlack = false;
 
@@ -191,7 +191,7 @@ class ThemeModel extends ChangeNotifier {
       if (_darkAccentColor == null) {
         return ThemeData.dark().accentColor;
       }
-      return Color(_darkAccentColor);
+      return Color(_accentColor);
     }
 
     if (_accentColor == null) {
@@ -202,7 +202,7 @@ class ThemeModel extends ChangeNotifier {
       return Color(_accentColor);
     }
 
-    return Colors.redAccent;
+    return Color(_accentColor);
   }
 
   Color get darkAccentColor {
@@ -214,9 +214,9 @@ class ThemeModel extends ChangeNotifier {
     _storage.clear();
     _darkMode = false;
     _trueBlack = false;
-    _customTheme = false;
-    _primaryColor = Colors.blue.value;
+    _customTheme = true;
+    _primaryColor = Colors.lightGreen.value;
     _accentColor = Colors.redAccent.value;
-    _darkAccentColor = Colors.greenAccent.value;
+    _darkAccentColor = Colors.redAccent.value;
   }
 }
