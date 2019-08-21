@@ -105,7 +105,7 @@ class ThemeModel extends ChangeNotifier {
                 accentColor: accentColor ?? Colors.redAccent,
               );
       default:
-        return customLightTheme ?? ThemeData.light().copyWith();
+        return customLightTheme ?? ThemeData.light().copyWith(primaryColor: Colors.white,);
     }
   }
 
