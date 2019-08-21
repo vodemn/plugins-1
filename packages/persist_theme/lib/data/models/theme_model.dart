@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 
 enum ThemeType { light, dark, custom, black }
 
+//update
+
 class ThemeModel extends ChangeNotifier {
   ThemeModel({
     this.customBlackTheme,
