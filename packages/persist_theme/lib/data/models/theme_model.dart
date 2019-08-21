@@ -22,7 +22,7 @@ class ThemeModel extends ChangeNotifier {
   bool _customTheme = false;
   int _darkAccentColor = Colors.greenAccent.value;
   bool _darkMode = false;
-  int _primaryColor = Colors.blue.value;
+  int _primaryColor = Colors.red.value;
   LocalStorage _storage;
   bool _trueBlack = false;
 
