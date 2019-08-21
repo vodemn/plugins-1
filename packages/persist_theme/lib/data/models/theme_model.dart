@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
+//updated
+
 enum ThemeType { light, dark, lightColor, darkColor }
 
 class ThemeModel extends ChangeNotifier {
