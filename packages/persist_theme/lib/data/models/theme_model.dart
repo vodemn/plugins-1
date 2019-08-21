@@ -97,11 +97,11 @@ class ThemeModel extends ChangeNotifier {
       case ThemeType.custom:
         return customCustomTheme != null
             ? customCustomTheme.copyWith(
-                primaryColor: primaryColor ?? Colors.blue,
+                primaryColor: primaryColor ?? Colors.white,
                 accentColor: accentColor ?? Colors.redAccent,
               )
             : ThemeData.light().copyWith(
-                primaryColor: primaryColor ?? Colors.blue,
+                primaryColor: primaryColor ?? Colors.white,
                 accentColor: accentColor ?? Colors.redAccent,
               );
       default:
