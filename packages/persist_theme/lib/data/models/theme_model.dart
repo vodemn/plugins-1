@@ -124,16 +124,13 @@ class ThemeModel extends ChangeNotifier {
     if (_trueBlack ?? false) {
       return customBlackTheme ??
           ThemeData.dark().copyWith(
-            scaffoldBackgroundColor: Colors.black,
-            backgroundColor: Colors.black,
-            bottomAppBarColor: Colors.black,
-            primaryColorDark: Colors.black,
-            accentColor: darkAccentColor ?? null,
+            primaryColorDark: primaryColor ?? null,
+            accentColor: accentColor ?? null,
           );
     }
     return customDarkTheme ??
         ThemeData.dark().copyWith(
-          accentColor: darkAccentColor ?? null,
+          accentColor: accentColor ?? null,
         );
   }
 
