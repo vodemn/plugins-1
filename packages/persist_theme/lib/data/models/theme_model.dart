@@ -77,7 +77,9 @@ class ThemeModel extends ChangeNotifier {
     }
     switch (type) {
       case ThemeType.light:
-        return customLightTheme ?? ThemeData.light().copyWith();
+        return customLightTheme ?? ThemeData.light().copyWith(
+          primaryColorDark: Colors.white,
+        );
       case ThemeType.dark:
         return customDarkTheme ??
             ThemeData.dark().copyWith(
