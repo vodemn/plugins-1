@@ -82,17 +82,17 @@ class ThemeModel extends ChangeNotifier {
       case ThemeType.dark:
         return customDarkTheme ??
             ThemeData.dark().copyWith(
-              accentColor: darkAccentColor ?? null,
+              accentColor: accentColor ?? null,
               primaryColor: primaryColor ?? Colors.blue,
             );
 
       case ThemeType.black:
         return customBlackTheme ??
             ThemeData.dark().copyWith(
-              scaffoldBackgroundColor: Colors.black,
-              backgroundColor: Colors.black,
-              bottomAppBarColor: Colors.black,
-              primaryColorDark: Colors.black,
+              scaffoldBackgroundColor: Colors.white,
+              backgroundColor: Colors.white,
+              bottomAppBarColor: Colors.white,
+              primaryColorDark: Colors.white,
               accentColor: darkAccentColor ?? null,
             );
 
