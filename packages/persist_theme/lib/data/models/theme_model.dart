@@ -19,7 +19,7 @@ class ThemeModel extends ChangeNotifier {
       customCustomTheme;
 
   int _accentColor = Colors.redAccent.value;
-  bool _customTheme = false;
+  bool _customTheme = true;
   int _darkAccentColor = Colors.greenAccent.value;
   bool _darkMode = false;
   int _primaryColor = Colors.red.value;
