@@ -217,7 +217,7 @@ class ThemeModel extends ChangeNotifier {
     _darkMode = false;
     _trueBlack = false;
     _customTheme = false;
-    _primaryColor = Colors.blue.value;
+    _primaryColor = Colors.white.value;
     _accentColor = Colors.redAccent.value;
     _darkAccentColor = Colors.greenAccent.value;
   }
