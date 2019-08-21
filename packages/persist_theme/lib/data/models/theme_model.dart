@@ -133,7 +133,8 @@ class ThemeModel extends ChangeNotifier {
     }
     return customDarkTheme ??
         ThemeData.dark().copyWith(
-          accentColor: darkAccentColor ?? null,
+          accentColor: accentColor ?? null,
+          primaryColor: primaryColor ?? null,
         );
   }
 
