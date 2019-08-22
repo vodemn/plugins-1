@@ -211,12 +211,8 @@ class ThemeModel extends ChangeNotifier {
   }
 
   void reset() {
-    _storage.clear();
     _darkMode = false;
     _trueBlack = false;
     _customTheme = true;
-    _primaryColor = Colors.lightGreen.value;
-    _accentColor = Colors.redAccent.value;
-    _darkAccentColor = Colors.redAccent.value;
   }
 }
