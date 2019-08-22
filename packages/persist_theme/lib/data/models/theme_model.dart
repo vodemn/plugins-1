@@ -30,8 +30,8 @@ class ThemeModel extends ChangeNotifier {
   bool _trueBlack = false;
 
   ThemeType get type {
+    if (_trueBlack ?? false) return ThemeType.black;
     if (_darkMode ?? false) {
-      if (_trueBlack ?? false) return ThemeType.black;
       return ThemeType.dark;
     }
     if (_customTheme ?? false) return ThemeType.custom;
