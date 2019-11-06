@@ -184,10 +184,6 @@ class ThemeModel extends ChangeNotifier {
   }
 
   Color get accentColor {
-    if (type == ThemeType.dark || type == ThemeType.black) {
-      return Color(_accentColor);
-    }
-
     if (_accentColor == null) {
       return ThemeData.light().accentColor;
     }
