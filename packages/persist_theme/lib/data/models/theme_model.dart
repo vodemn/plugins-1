@@ -195,10 +195,6 @@ class ThemeModel extends ChangeNotifier {
       return ThemeData.light().accentColor;
     }
 
-    if (_customTheme) {
-      return Color(_accentColor);
-    }
-
     return Color(_accentColor);
   }
 
